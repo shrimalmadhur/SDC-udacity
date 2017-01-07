@@ -50,7 +50,9 @@ y_pred = tf.arg_max(logits, 1)
 
 # TODO: Train and evaluate the feature extraction model.
 EPOCH = 1
+
 BATCH_SIZE = 128
+batch_size = BATCH_SIZE
 
 def data_iterator(x, y):
     """ A simple data iterator """
@@ -69,6 +71,21 @@ def data_iterator(x, y):
 def accuracy(predictions, labels):
   	return (100.0 * np.sum(predictions == labels) / predictions.shape[0])
 
+def eval_on_data(X, y, sess):
+    total_acc = 0
+    total_loss = 0
+    for offset in range(0, X.shape[0], batch_size):
+        end = offset + batch_size
+        X_batch = X[offset:end]
+        y_batch = y[offset:end]
+
+        loss, acc = sess.run([loss_op, y_pred], feed_dict={x: X_batch, y: y_batch})
+        acc = float(accuracy(acc, labels)/100.0)
+        total_loss += (loss * X_batch.shape[0])
+        total_acc += (acc * X_batch.shape[0])
+
+    return total_loss/X.shape[0], total_acc/X.shape[0]
+
 session = tf.Session()
 session.run(tf.initialize_all_variables())
 
@@ -85,7 +102,7 @@ for i in range(EPOCH):
         # Run the optimizer on the batch
         session.run([train_op], feed_dict={x: x_batch, y: y_batch})
 
-    train_cost, train_predictions = session.run([loss_op, y_pred], feed_dict={x: X_train, y: Y_train})
-    print("train accuracy %.1f%% with loss %0.1f in epoch %d" % (float(accuracy(train_predictions, Y_train)), train_cost, (i+1)))
+    train_cost, train_acc = eval_on_data(X_train, Y_train, session)
+    print("train accuracy %.1f%% with loss %0.1f in epoch %d" % (float(train_acc), train_cost, (i+1)))
     
 print('Validation accuracy: %.1f%%' % accuracy(valid_pred.eval(session=session), Y_val)) 
