@@ -20,10 +20,11 @@ print(X_train.shape)
 print(Y_train.shape)
 # TODO: Define placeholders and resize operation.
 image_shape = X_train[0].shape
+#print(image_shape)
 x = tf.placeholder(tf.float32, shape=[None, image_shape[0], image_shape[1], image_shape[2]])
-y = tf.placeholder(tf.int64, shape=[None])
+y = tf.placeholder(tf.int64, None)
 resized = tf.image.resize_images(x, (227, 227))
-
+#print(resized[0].get_shape())
 # TODO: pass placeholder as first argument to `AlexNet`.
 fc7 = AlexNet(resized, feature_extract=True)
 # NOTE: `tf.stop_gradient` prevents the gradient from flowing backwards
@@ -41,15 +42,17 @@ probs = tf.nn.softmax(logits)
 # TODO: Define loss, training, accuracy operations.
 # HINT: Look back at your traffic signs project solution, you may
 # be able to reuse some the code.
+print(logits.get_shape())
+print(y.get_shape())
 beta = 1e-3
-loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits, y)) + beta*(tf.nn.l2_loss(weight))
+loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits, y))
 opt = tf.train.AdamOptimizer(1e-3)
 train_op = opt.minimize(loss_op, var_list=[weight, bias])
 # init_op = tf.initialize_all_variables()
 y_pred = tf.arg_max(logits, 1)
-
+accuracy_op = tf.reduce_mean(tf.cast(tf.equal(y_pred, y), tf.float32))
 # TODO: Train and evaluate the feature extraction model.
-EPOCH = 1
+EPOCH = 10
 
 BATCH_SIZE = 128
 batch_size = BATCH_SIZE
@@ -78,9 +81,10 @@ def eval_on_data(X, y, sess):
         end = offset + batch_size
         X_batch = X[offset:end]
         y_batch = y[offset:end]
-
-        loss, acc = sess.run([loss_op, y_pred], feed_dict={x: X_batch, y: y_batch})
-        acc = float(accuracy(acc, labels)/100.0)
+        print(X_batch.shape)
+        print(y_batch.shape)
+        loss, acc = sess.run([loss_op, accuracy_op], feed_dict={x: X_batch, y: y_batch})
+       # acc = float(accuracy(acc, labels)/100.0)
         total_loss += (loss * X_batch.shape[0])
         total_acc += (acc * X_batch.shape[0])
 
@@ -95,14 +99,15 @@ iter_ = data_iterator(X_train, Y_train)
 
 for i in range(EPOCH):
 
-    for j in range(num_iterations_per_epoch):
+    for offset in range(0, X_train.shape[0], batch_size):
         # get a batch of data
-        x_batch, y_batch = next(iter_)
+        end = offset + batch_size
+        #x_batch, y_batch = next(iter_)
 
         # Run the optimizer on the batch
-        session.run([train_op], feed_dict={x: x_batch, y: y_batch})
+        session.run([train_op], feed_dict={x: X_train[offset:end], y: Y_train[offset:end]})
 
-    train_cost, train_acc = eval_on_data(X_train, Y_train, session)
+    train_cost, train_acc = eval_on_data(X_val, Y_val, session)
     print("train accuracy %.1f%% with loss %0.1f in epoch %d" % (float(train_acc), train_cost, (i+1)))
     
-print('Validation accuracy: %.1f%%' % accuracy(valid_pred.eval(session=session), Y_val)) 
+#print('Validation accuracy: %.1f%%' % accuracy(valid_pred.eval(session=session), Y_val)) 
