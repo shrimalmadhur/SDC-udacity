@@ -1,0 +1,8 @@
+BATCH_SIZE = 128
+EPOCH = 10
+Learning Rate = 0.0001
+Around 43000 images divided into training(66%) and rest test
+Adam optimizer
+nvidia pipeline
+loss = mse
+
