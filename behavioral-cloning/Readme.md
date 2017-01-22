@@ -19,4 +19,4 @@ I cropped the top 40% and bottom 10% of data since I thought they were not usefu
 - I used dropout of 0.5 after each fully connected layer
 - I ran my model for 10 epochs and batch size of 128. I tried with 15 epochs too but there was not much loss in mse.
 
-I also have other decent models in the goodmodels folder in this repo. The first 4 was not passing the whole lap. The last one ith the folder name "fifth" passed the whole lap with a little glitch on the last steep right turn where it went too right but recovered itself. I will work on that.
+I also have other decent models in the [goodmodels](https://github.com/shrimalmadhur/SDC-udacity/tree/master/behavioral-cloning/goodmodels) folder in this repo. The first 4 was not passing the whole lap. The last one ith the folder name "fifth" passed the whole lap with a little glitch on the last steep right turn where it went too right but recovered itself. I will work on that.
