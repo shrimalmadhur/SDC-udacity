@@ -1,0 +1,2 @@
+Hyper params of first
+EPOCH = 15
