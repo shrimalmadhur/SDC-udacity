@@ -98,20 +98,25 @@ Here is the image of what I formed:
 ####5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 Now I find the radius of curvature in the code cells `[36]`
-The lane shift was found by this piece of code (Sorry I forgot to make it a function) But this code is in the code cell `[39]`
-`
-y_max_l = np.max(left_pixels[1])
-line_fitx_l = left_line_curve[0][0]*y_max_l**2 + left_line_curve[0][1]*y_max_l + left_line_curve[0][2]
+The lane shift was found by this piece of code (Sorry I forgot to make it a function) But this code is in the code cell `[39]`:
+ ```
+ y_max_l = np.max(left_pixels[1])
+ 
+ line_fitx_l = left_line_curve[0][0]*y_max_l**2 + left_line_curve[0][1]*y_max_l + left_line_curve[0][2]
+ 
+ y_max_r = np.max(right_pixels[1])
+ 
+ line_fitx_r = right_line_curve[0][0]*y_max_r**2 + right_line_curve[0][1]*y_max_r + right_line_curve[0][2]
+ 
+ lane_center = (line_fitx_l + line_fitx_r)/2
+ 
+ actual_center = image.shape[1]/2
+ 
+ diff = lane_center - actual_center
+ 
+ diff = diff*3.7/700
+```
 
-y_max_r = np.max(right_pixels[1])
-line_fitx_r = right_line_curve[0][0]*y_max_r**2 + right_line_curve[0][1]*y_max_r + right_line_curve[0][2]
-
-lane_center = (line_fitx_l + line_fitx_r)/2
-actual_center = image.shape[1]/2
-
-diff = lane_center - actual_center
-diff = diff*3.7/700
-`
 where `left_pixels` and `right_pixels` are the pixel values of left and right lines. `left_line_curve[0]` and `right_line_curve[0]` are the parameters of the equations of the second order polynomials.
 
 ####6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
