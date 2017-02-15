@@ -24,7 +24,7 @@ The goals / steps of this project are the following:
 [three]: ./output_images/output_3.png
 [four]: ./output_images/output_4.png
 [heat]: ./output_images/heatmap.png "Heatmap"
-[heatpred]: ./output_images/heatmap_prediction.png "Heatmap prediction"
+[heatpred]: ./output_images/heatmap_predict.png "Heatmap prediction"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
