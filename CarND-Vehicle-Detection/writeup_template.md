@@ -25,6 +25,14 @@ The goals / steps of this project are the following:
 [four]: ./output_images/output_4.png
 [heat]: ./output_images/heatmap.png "Heatmap"
 [heatpred]: ./output_images/heatmap_predict.png "Heatmap prediction"
+[carhog11112]: ./output_images/car_hog_11_11_2.png
+[carhog11082]: ./output_images/car_hog_11_8_2.png
+[carhog09082]: ./output_images/car_hog_9_8_2.png
+[carhog08082]: ./output_images/car_hog_8_8_2.png
+[noncarhog11112]: ./output_images/noncar_hog_11_11_2.png
+[noncarhog11082]: ./output_images/noncar_hog_11_8_2.png
+[noncarhog09082]: ./output_images/noncar_hog_9_8_2.png
+[noncarhog08082]: ./output_images/noncar_hog_8_8_2.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -52,14 +60,41 @@ Non Car Image
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
+Car Image parameters (11, 11, 2)
+![alt text][carhog11112]
+
+Car Image parameters (11, 8, 2)
+![alt text][carhog11082]
+
+Car Image parameters (9, 8, 2)
+![alt text][carhog09082]
+
+Car Image parameters (8, 8, 2)
+![alt text][carhog08082]
+
+Non Car Image parameters (11, 11, 2)
+![alt text][noncarhog11112]
+
+Non Car Image parameters (11, 8, 2)
+![alt text][noncarhog11082]
+
+Non Car Image parameters (9, 8, 2)
+![alt text][noncarhog09082]
+
+Non Car Image parameters (8, 8, 2)
+![alt text][noncarhog08082]
+
 Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
+Car Image 
+![alt text][carhog08082]
 
-![alt text][image2]
+Non Car Image
+![alt text][noncarhog08082]
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and finally settled with `orientations=0` , `pixel_per_cell=8` and `cell_per_block=2` because they were giving enough information about the gradients of image. I tried RGB, HSV and YCrCb and `YCrCb` was giving me the best accuracy for the classifier.
+I tried various combinations of parameters and finally settled with `orientations=8` , `pixel_per_cell=8` and `cell_per_block=2` because they were giving enough information about the gradients of image. I tried RGB, HSV and YCrCb and `YCrCb` was giving me the best accuracy for the classifier.
  
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
